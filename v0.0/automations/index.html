@@ -708,6 +708,39 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#vulnerability-scanning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vulnerability Scanning
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#static-code-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Static Code Analysis
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#documentation" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1087,6 +1120,39 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#vulnerability-scanning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vulnerability Scanning
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#static-code-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Static Code Analysis
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#documentation" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1168,10 +1234,20 @@
 <h1 id="automations">Automations<a class="headerlink" href="#automations" title="Permanent link">&para;</a></h1>
 <p>A number of automations are available to facilitate the development, quality assurance, security, deployment, maintenance and onboarding of the service. Here we describe some that are directly, publicly available.</p>
 <h2 id="dockerfile">Dockerfile<a class="headerlink" href="#dockerfile" title="Permanent link">&para;</a></h2>
-<p>The main delivery package for the service is a docker image. The <a href="https://github.com/terra-horizon/terra-aai/blob/main/Dockerfile">Dockerfile</a> bundled under the project repo for the service builds the Docker image.</p>
+<p>The main delivery package for the service is a docker image. The <a href="https://github.com/terra-horizon/terra-aai/blob/main/src/Dockerfile">Dockerfile</a> bundled under the project repo for the service builds the Docker image.</p>
 <h2 id="docker-image-publishing">Docker image publishing<a class="headerlink" href="#docker-image-publishing" title="Permanent link">&para;</a></h2>
 <p>A GitHub Action workflow is available to <a href="https://github.com/terra-horizon/terra-aai/blob/main/.github/workflows/docker-publish.yml">build and publish</a> the generated docker image for the service. The action is triggered when a new tag is created in the repository. This way, all the images produced are always named and can be traced back to the codebase snapshot that generated them.</p>
 <p>The generated docker image is pushed to the GitHub organization Packages using the name of the service repo and the version tag that triggered the execution.</p>
+<h2 id="vulnerability-scanning">Vulnerability Scanning<a class="headerlink" href="#vulnerability-scanning" title="Permanent link">&para;</a></h2>
+<p>A GitHub Action workflow is available to <a href="https://github.com/terra-horizon/terra-aai/blob/main/.github/workflows/vulnerability-scan-on-demand.yml">scan for vulnerabilities</a> any docker image that was created for the service. The action is triggered manually and expects as input the version tag that was used to generate the respective docker image that must be scanned.</p>
+<p>Vulnerability scanning is performed using <a href="https://trivy.dev/">Trivy</a>. The results are generated in SARIF format and are made available in the GitHub Code Scanning tool that is configured for the service.</p>
+<p>Trivy is utilized to scan both the configuration that triggers the Docker image generation (ie the Dockerfile) as well as the generated image. The scanning performed on the generated image includes both OS vulnerabilities as well as installed libraries.</p>
+<h2 id="static-code-analysis">Static Code Analysis<a class="headerlink" href="#static-code-analysis" title="Permanent link">&para;</a></h2>
+<p>A GitHub Action workflow is available to <a href="https://github.com/terra-horizon/terra-aai/blob/main/.github/workflows/codeql-scan-on-demand.yml">analyze the code</a> using static code analysis offered through GitHub's CodeQL. The action is triggered manually and can be executed against the HEAD of the repository.</p>
+<p>The scan is configured to evaluate rules on security, quality and maintenability of the codebase. The results generated are made available in the GitHub Code Scanning tool that is configured for the service.</p>
+<h2 id="testing">Testing<a class="headerlink" href="#testing" title="Permanent link">&para;</a></h2>
+<p>A GitHub Action workflow is available to <a href="https://github.com/terra-horizon/terra-aai/blob/main/.github/workflows/test-on-demand.yml">perform API smoke testing</a> any configured installation of the service. The action is triggered manually and expects as input the version tag that contain the version of the tests that are compatible with the version of the deployed installation under test.</p>
+<p>Smoke testing of the APIs is perfomed using a <a href="https://www.postman.com/">Postman</a> collection of requests. Configuration that needs to be passed in a protected way is maintained as GitHub Secrets. The request collection is axecuted using the <a href="https://github.com/postmanlabs/newman">Newman CLI</a>. The output of the test run presents a summary of the requests performed and any errors that may have been observed.</p>
 <h2 id="documentation">Documentation<a class="headerlink" href="#documentation" title="Permanent link">&para;</a></h2>
 <p>A GitHub Action workflow is available to <a href="https://github.com/terra-horizon/terra-aai/blob/main/.github/workflows/deploy-docs-on-demand.yml">generate documentation</a> available in the project in the format presented here. The action is triggered manually and can be executed against the head of the repository. The documentation generated is versioned and the documentation version is expected as input to the workflow. </p>
 <p>The documentation is build using the <a href="https://www.mkdocs.org/">mkdocs</a> library and specifically using the <a href="https://squidfunk.github.io/mkdocs-material/">Material for mkdocs</a> plugin. A number of additional tools are ustilized, such as <a href="https://github.com/jimporter/mike">mike</a> to support versioning, and others.</p>
