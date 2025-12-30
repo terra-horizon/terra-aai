@@ -34,5 +34,5 @@ Make sure to follow the TERRA channels to get the latest news and references:
 
 * [GitHub](https://github.com/terra-horizon/)
 * [X](https://x.com/horizon_terra)
-* [YoutTube](https://www.youtube.com/@TERRAHORIZON)
+* [YouTube](https://www.youtube.com/@TERRAHORIZON)
 * [LinkedIn](https://www.linkedin.com/company/terra-horizon)
