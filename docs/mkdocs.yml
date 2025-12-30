@@ -30,7 +30,7 @@ nav:
 theme:
   name: 'material'
   favicon: images/favicon.ico
-  logo: images/TERRA_Logo_Header.png.png
+  logo: images/TERRA_Logo_Header.png
   icon:
     repo: fontawesome/brands/github
   custom_dir: overrides
