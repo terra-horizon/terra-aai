@@ -22,7 +22,7 @@ You can always contact us through the [TERRA Help Desk](https://terra-horizon.eu
 
 ## Examples
 
-You can find example of commonly used token requests in the API section section.
+You can find example of commonly used token requests in the API section section. There are also test requests available under the service [smoke testing scripts](https://github.com/terra-horizon/terra-aai/tree/main/tests)
 
 ## Tutorials
 
