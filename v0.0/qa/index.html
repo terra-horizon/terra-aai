@@ -857,6 +857,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quality Assurance
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -873,6 +891,36 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#smoke-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Smoke testing
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -988,6 +1036,25 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#smoke-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Smoke testing
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1058,6 +1125,15 @@
 <p>Key aspects of the Quality Assurance checklist that TERRA services must pass have been defined in the processes and documents governing the platform development and quality assurance. </p>
 <p>For the case of TERRA AAI we rely on the the <a href="https://www.keycloak.org/">Keycloak</a> Identity and Access Management solution which is a well established and widely used <a href="https://github.com/keycloak/keycloak">open source</a> project.</p>
 <p>In the context of TERRA we apply the needed configuration utilizing the available features in Keycloak without any customizations that would jeopartize the security and offered service quality. </p>
+<h2 id="smoke-testing">Smoke testing<a class="headerlink" href="#smoke-testing" title="Permanent link">&para;</a></h2>
+<p>In the context of the TERRA usage and the flows presented in the <a href="../architecture/">Architecture Overview</a>, a smoke test scenario is available for evaluation under the respective <a href="../automations/">Testing Automations</a>. These smoke test scenarios cover the following grant flows:</p>
+<ul>
+<li><a href="../token-user-password/">User Password</a></li>
+<li><a href="../token-client-secret/">Client Secret</a></li>
+<li><a href="../token-refresh-token/">Refresh Token</a></li>
+<li><a href="../token-exchange-token/">Token Exchange</a></li>
+</ul>
+<p>The test scripts can be found in the service <a href="https://github.com/terra-horizon/terra-aai/tree/main/tests">code repository</a></p>
 
 
 
