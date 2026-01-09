@@ -1,0 +1,409 @@
+{
+	"info": {
+		"_postman_id": "0c8a667b-560c-4be8-99dd-2c388d9848d7",
+		"name": "TERRA-AAI-Tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "654785"
+	},
+	"item": [
+		{
+			"name": "Healthcheck",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if (pm.response.code === 200) {\r",
+							"    pm.test(\"Successful healthcheck\", () => {\r",
+							"        pm.expect(pm.response.code).to.eql(200);\r",
+							"    });\r",
+							"}\r",
+							"else {\r",
+							"    pm.test(\"Failed in healthcheck\", () => {\r",
+							"        pm.expect(pm.response.code).to.eql(200);\r",
+							"    })\r",
+							"    pm.execution.setNextRequest(null);\r",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/oauth/health",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"oauth",
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Access Token - clientA",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if (pm.response.code === 200) {\r",
+							"    pm.test(\"Successfully acquired clientA access token\", () => {\r",
+							"        pm.expect(pm.response.code).to.eql(200);\r",
+							"    });\r",
+							"\r",
+							"    var resp = pm.response.json();\r",
+							"\r",
+							"    pm.collectionVariables.set(\"clientAAccessToken\", resp.access_token);\r",
+							"}\r",
+							"else {\r",
+							"    pm.test(\"Failed to acquire clientA access token\", () => {\r",
+							"        pm.expect(pm.response.code).to.eql(200);\r",
+							"    })\r",
+							"    pm.execution.setNextRequest(null);\r",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "{{clientId-A}}",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "{{clientSecret-A}}",
+							"type": "text"
+						},
+						{
+							"key": "scope",
+							"value": "{{clientId-B}} openid offline_access",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseUrl}}/oauth/realms/{{realm}}/protocol/openid-connect/token",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"oauth",
+						"realms",
+						"{{realm}}",
+						"protocol",
+						"openid-connect",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Access Token - user @ clientA",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if (pm.response.code === 200) {\r",
+							"    pm.test(\"Successfully acquired user access token\", () => {\r",
+							"        pm.expect(pm.response.code).to.eql(200);\r",
+							"    });\r",
+							"\r",
+							"    var resp = pm.response.json();\r",
+							"\r",
+							"    pm.collectionVariables.set(\"userToAAccessToken\", resp.access_token);\r",
+							"    pm.collectionVariables.set(\"userToARefreshToken\", resp.refresh_token);\r",
+							"}\r",
+							"else {\r",
+							"    pm.test(\"Failed to acquire user access token\", () => {\r",
+							"        pm.expect(pm.response.code).to.eql(200);\r",
+							"    })\r",
+							"    pm.execution.setNextRequest(null);\r",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "{{clientId-A}}",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "{{clientSecret-A}}",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "{{userName}}",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "{{userPass}}",
+							"type": "text"
+						},
+						{
+							"key": "scope",
+							"value": "openid offline_access",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseUrl}}/oauth/realms/{{realm}}/protocol/openid-connect/token",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"oauth",
+						"realms",
+						"{{realm}}",
+						"protocol",
+						"openid-connect",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Refresh Token - user @ clientA",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if (pm.response.code === 200) {\r",
+							"    pm.test(\"Successfully refresh user access token\", () => {\r",
+							"        pm.expect(pm.response.code).to.eql(200);\r",
+							"    });\r",
+							"\r",
+							"    var resp = pm.response.json();\r",
+							"\r",
+							"    pm.collectionVariables.set(\"userToAAccessToken\", resp.access_token);\r",
+							"    pm.collectionVariables.set(\"userToARefreshToken\", resp.refresh_token);\r",
+							"}\r",
+							"else {\r",
+							"    pm.test(\"Failed to refresh user access token\", () => {\r",
+							"        pm.expect(pm.response.code).to.eql(200);\r",
+							"    })\r",
+							"    pm.execution.setNextRequest(null);\r",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "refresh_token",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "{{clientId-A}}",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "{{clientSecret-A}}",
+							"type": "text"
+						},
+						{
+							"key": "refresh_token",
+							"value": "{{userToARefreshToken}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseUrl}}/oauth/realms/{{realm}}/protocol/openid-connect/token",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"oauth",
+						"realms",
+						"{{realm}}",
+						"protocol",
+						"openid-connect",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Exchange Token - user @ clientA for clientB",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if (pm.response.code === 200) {\r",
+							"    pm.test(\"Successfully exchanged user access token\", () => {\r",
+							"        pm.expect(pm.response.code).to.eql(200);\r",
+							"    });\r",
+							"\r",
+							"    var resp = pm.response.json();\r",
+							"\r",
+							"    pm.collectionVariables.set(\"userAToBAccessToken\", resp.access_token);\r",
+							"}\r",
+							"else {\r",
+							"    pm.test(\"Failed to exchange user access token\", () => {\r",
+							"        pm.expect(pm.response.code).to.eql(200);\r",
+							"    })\r",
+							"    pm.execution.setNextRequest(null);\r",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var keys = pm.environment.get(\"clientId-A\") + \":\" + pm.environment.get(\"clientSecret-A\");\r",
+							"var encodedKeys = CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(keys));\r",
+							"\r",
+							"pm.collectionVariables.set(\"clientBasicAuth-A\", encodedKeys);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic {{clientBasicAuth-A}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "urn:ietf:params:oauth:grant-type:token-exchange",
+							"type": "text"
+						},
+						{
+							"key": "subject_token",
+							"value": "{{userToAAccessToken}}",
+							"type": "text"
+						},
+						{
+							"key": "subject_token_type",
+							"value": "urn:ietf:params:oauth:token-type:access_token",
+							"type": "text"
+						},
+						{
+							"key": "requested_token_type",
+							"value": "urn:ietf:params:oauth:token-type:access_token",
+							"type": "text"
+						},
+						{
+							"key": "scope",
+							"value": "{{clientId-B}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseUrl}}/oauth/realms/{{realm}}/protocol/openid-connect/token",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"oauth",
+						"realms",
+						"{{realm}}",
+						"protocol",
+						"openid-connect",
+						"token"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

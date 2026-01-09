@@ -14,11 +14,13 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      TEST_BASEURLIDP: ${{ secrets.TEST_BASEURLIDP }}
-      TEST_CLIENTID: ${{ secrets.TEST_CLIENTID }}
-      TEST_SCOPE: ${{ secrets.TEST_SCOPE }}
+      TEST_BASEURL: ${{ secrets.TEST_BASEURL }}
+      TEST_REALM: ${{ secrets.TEST_REALM }}
       TEST_USERNAME: ${{ secrets.TEST_USERNAME }}
       TEST_USERPASS: ${{ secrets.TEST_USERPASS }}
+      TEST_CLIENTIDA: ${{ secrets.TEST_CLIENTIDA }}
+      TEST_CLIENTSECRETA: ${{ secrets.TEST_CLIENTSECRETA }}
+      TEST_CLIENTIDB: ${{ secrets.TEST_CLIENTIDB }}
       
     steps:
       - name: Checkout repository
@@ -33,9 +35,11 @@ jobs:
             -v "${{ github.workspace }}:/etc/newman" \
             postman/newman:6-ubuntu \
             run tests/TERRA-AAI-Tests.postman_collection.json \
-            --env-var "baseUrlIdp=${{ env.TEST_BASEURLIDP }}" \
-            --env-var "clientId=${{ env.TEST_CLIENTID }}" \
-            --env-var "scope=${{ env.TEST_SCOPE }}" \
+            --env-var "baseUrl=${{ env.TEST_BASEURL }}" \
+            --env-var "realm=${{ env.TEST_REALM }}" \
             --env-var "userName=${{ env.TEST_USERNAME }}" \
             --env-var "userPass=${{ env.TEST_USERPASS }}" \
+            --env-var "clientId-A=${{ env.TEST_CLIENTIDA }}" \
+            --env-var "clientSecret-A=${{ env.TEST_CLIENTSECRETA }}" \
+            --env-var "clientId-B=${{ env.TEST_CLIENTIDB }}" \
             --reporters cli,emojitrain
